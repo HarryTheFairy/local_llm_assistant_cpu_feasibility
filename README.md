@@ -1,5 +1,26 @@
 # local_llm_assistant_cpu_feasibility
+## So far
+* Llama.cpp setup is very simple
+** For Windows11 just download a zip file from https://github.com/ggerganov/llama.cpp/releases/
+  *** in my case this was llama-b3066-bin-win-avx2-x64.zip
+  *** bin-win for the operating system Windows
+  *** x64 is the instruction set architecture (check with the CPU datasheet)
+  *** avx2 vectorization extention for the instruction set (check with the CPU datasheet)
+** unzip the folder to a custom location eg.: C:/tools/llama-b3066-bin-win-avx2-x64
+** open a shell with a path into that unzipped folder
+*** note: cmd or powershell seem to not support the markdown syntax that the model answers with for code examples. This markdown text might not show up without any warning or errors. You can look for any other shell that supports this. GitBash might be a good accessible option but there are several others.
+** download a model in GGUF format. In my case this is: https://huggingface.co/QuantFactory/Meta-Llama-3-8B-Instruct-GGUF using the Q4_K quantization variant because apperently its a good bealance between speed and quality (not sure yet)
+** in the shell: ./main -m ./Meta-Llama-3-8B.Q4_K --instruct
+*** -m ./Meta-Llama-3-8B.Q4_K sets the FNAME or the filepath to the model
+  *** --instruct enable instruction mode. This is necessary so you can give instructuins to the model. Otherwise it will chat with itself.
+  *** examples often show -cml or --chatml i am not sure yet what that is
+  *** Alll the options can be read wiht ./main --help but not all options are universal. Some of them need to be supported by the model itself.
+** now you can chat with the model in the shell like a chatbot.
 
+## Open questions
+* Precombiled binaries of llama.cpp are super simple, but is there a benefit from compiling from sourcecode myself? I tried it with msys2 and failed so I skip this for now until I stuble over some information.
+* Whats the best indexing project for a RAG application with llama.cpp
+  
 ## Main goal
 Using a large language model to understand and help with technical documentation.
 Looking features like:
@@ -12,6 +33,7 @@ Looking features like:
 * (optional) maybe help with task tracking and planning strategies on how to proceed. But apperantly current models are quite bad at that.
 * Run locally without any cloud services (mandatory for personal and confidential notes and documentation)
 * Run on Intel 13th gen CPU with <=32GB RAM without dedicated GPU
+* On Windows11
 * Free and open source. There is a lot available so why not use that first? Interesting if this can be used by anybody at work without caring about licensing fees.
 
 ## Non-goals
@@ -54,6 +76,7 @@ I am not sure how important this fine tuning might be because when using llama3 
 ### Mistral 7B
 https://huggingface.co/mistralai/Mistral-7B-v0.1
 A open source model which apparently is quite good for its size and uses a different architecture. I saw it in use for several automation assistans in some projects. May be interesting to test it against llama3 8B
+
 ## LLM Terms
 ### Quantization
 A technique which enables to run models with less powerful compute while sacrificing accuracy.
