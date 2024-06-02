@@ -1,26 +1,5 @@
 # local_llm_assistant_cpu_feasibility
-## So far
-* Llama.cpp setup is very simple
-** For Windows11 just download a zip file from https://github.com/ggerganov/llama.cpp/releases/
-  *** in my case this was llama-b3066-bin-win-avx2-x64.zip
-  *** bin-win for the operating system Windows
-  *** x64 is the instruction set architecture (check with the CPU datasheet)
-  *** avx2 vectorization extention for the instruction set (check with the CPU datasheet)
-** unzip the folder to a custom location eg.: C:/tools/llama-b3066-bin-win-avx2-x64
-** open a shell with a path into that unzipped folder
-*** note: cmd or powershell seem to not support the markdown syntax that the model answers with for code examples. This markdown text might not show up without any warning or errors. You can look for any other shell that supports this. GitBash might be a good accessible option but there are several others.
-** download a model in GGUF format. In my case this is: https://huggingface.co/QuantFactory/Meta-Llama-3-8B-Instruct-GGUF using the Q4_K quantization variant because apperently its a good bealance between speed and quality (not sure yet)
-** in the shell: ./main -m ./Meta-Llama-3-8B.Q4_K --instruct
-*** -m ./Meta-Llama-3-8B.Q4_K sets the FNAME or the filepath to the model
-  *** --instruct enable instruction mode. This is necessary so you can give instructuins to the model. Otherwise it will chat with itself.
-  *** examples often show -cml or --chatml i am not sure yet what that is
-  *** Alll the options can be read wiht ./main --help but not all options are universal. Some of them need to be supported by the model itself.
-** now you can chat with the model in the shell like a chatbot.
 
-## Open questions
-* Precombiled binaries of llama.cpp are super simple, but is there a benefit from compiling from sourcecode myself? I tried it with msys2 and failed so I skip this for now until I stuble over some information.
-* Whats the best indexing project for a RAG application with llama.cpp
-  
 ## Main goal
 Using a large language model to understand and help with technical documentation.
 Looking features like:
@@ -34,6 +13,7 @@ Looking features like:
 * Run locally without any cloud services (mandatory for personal and confidential notes and documentation)
 * Run on Intel 13th gen CPU with <=32GB RAM without dedicated GPU
 * On Windows11
+* Inference only / no training
 * Free and open source. There is a lot available so why not use that first? Interesting if this can be used by anybody at work without caring about licensing fees.
 
 ## Non-goals
@@ -56,7 +36,7 @@ But it seems this is the default when building applications with graphics cards.
 For CPU only llama.cpp is often mentionend as alternative
 ### llama.cpp
 https://github.com/ggerganov/llama.cpp
-llama.cpp seems to be THE project to use for running models locally on CPU without GPU. Giving greedy and lazy tool enthusiasts the possibility to demand futuristic intelligence barely good enough corporate hardware. Builtin NPU/TPU might support this cause in the near future.
+llama.cpp seems to be THE project to use for running models locally on CPU without GPU. Giving greedy and lazy tool enthusiasts the possibility to demand futuristic intelligence on barely good enough corporate hardware. Builtin NPU/TPU might support this cause in the near future.
 This is very good to at least get some experience even with low tokens per second, because buying any hardware right now looks so risky since its expected to be out of date very quickly when new ASICS come to the market.
 
 ## Models
@@ -88,8 +68,33 @@ More parameters allways means higher computational requirements.
 The limit for mobile CPU with 32GB or RAM model should be around 7B to 13B parameters (most likely needs quantization)
 ### 
 
-Instead of using the readme file all these notes may go into a github page instead, but I am not entirely sure yet what that is..
+## So far
+* Llama.cpp setup is very simple
+  * For Windows11 just download a zip file from https://github.com/ggerganov/llama.cpp/releases/
+    * in my case this was llama-b3066-bin-win-avx2-x64.zip
+    * bin-win for the operating system Windows
+    * x64 is the instruction set architecture (check with the CPU datasheet)
+    * avx2 vectorization extention for the instruction set (check with the CPU datasheet)
+  * unzip the folder to a custom location eg.: C:/tools/llama-b3066-bin-win-avx2-x64
+  * open a shell with a path into that unzipped folder
+    * note: cmd or powershell seem to not support the markdown syntax that the model answers with for code examples. This markdown text might not show up without any warning or errors. You can look for any other shell that supports this. GitBash might be a good accessible option but there are several others.
+  * download a model in GGUF format. In my case this is: https://huggingface.co/QuantFactory/Meta-Llama-3-8B-Instruct-GGUF using the Q4_K quantization variant because apperently its a good bealance between speed and quality (not sure yet)
+  * in the shell: ./main -m ./Meta-Llama-3-8B.Q4_K --instruct
+    * -m ./Meta-Llama-3-8B.Q4_K sets the FNAME or the filepath to the model
+    * --instruct enable instruction mode. This is necessary so you can give instructuins to the model. Otherwise it will chat with itself.
+    * examples often show -cml or --chatml i am not sure yet what that is
+    * All the options can be read wiht ./main --help but not all options are universal. Some of them need to be supported by the model itself.
+  * now you can chat with the model in the shell like a chatbot.
+* Running llama.cpp and Meta-Llama-3-8B-Instruct-GGUF.Q4_K on an Intel 13Gen Mobile CPU actually works with ok speed.
+  * apparently supporting an instruction set extention like avx2 helps a lot with neural processing (compared to older CPUs)
+  * there is a Deep Learning Boost hardware inside. I am not sure if that is actually utilized automaticall or if this somehow needs to be enabled.
+
+## Open questions
+* Intel® Deep Learning Boost (Intel® DL Boost) on CPU: Is this utilized allways automatically, or does it have to be supported in software?
+* Precombiled binaries of llama.cpp are super simple, but is there a benefit from compiling from sourcecode myself? I tried it with msys2 and failed so I skip this for now until I stuble over some information.
+* Whats the best indexing project for a RAG application with llama.cpp
 If there are any comments, corrections, or suggestion for existing projects which already do that kind of stuff I am happy to hear it.
+* What environment can be used to interact with this application? (IDE and/or GUI)
 
 
 
