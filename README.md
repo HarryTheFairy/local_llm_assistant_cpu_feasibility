@@ -39,6 +39,8 @@ https://github.com/ollama/ollama
 Very commonly mentioned tool for retreiving models and chatting with them.
 But it seems this is the default when building applications with graphics cards. I did not see an example yet that runs good on CPU only.
 For CPU only llama.cpp is often mentionend as alternative
+### langchain
+Seems to be a framework for loading and interacting with LLM models but with llama.cpp running this should not be necessary.
 
 ## Models
 Since compute and RAM is very limited by the hardware requirements I am mostly looking into 7B and 8B models or similar.
@@ -57,6 +59,11 @@ I am not sure how important this fine tuning might be because when using llama3 
 ### Mistral 7B
 https://huggingface.co/mistralai/Mistral-7B-v0.1
 A open source model which apparently is quite good for its size and uses a different architecture. I saw it in use for several automation assistans in some projects. May be interesting to test it against llama3 8B
+
+## Indexing frameworks
+### Llama Index
+https://github.com/run-llama/llama_index
+Data framework for LLMs. Looks interesting but not sure if it runs well with llama.cpp yet.
 
 ## LLM Terms
 ### Parameters 
